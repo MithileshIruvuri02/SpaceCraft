@@ -1,5 +1,7 @@
 import streamlit as st
-from image_generator import generate_image
+import os
+import uuid
+from image_generator import generate_image  # Assuming this function generates the image
 
 st.set_page_config(page_title="SpaceCraft - AI Interior Design", layout="wide")
 
@@ -22,16 +24,21 @@ user_prompt = st.text_area("Describe your room:", selected_theme if selected_the
 if st.button("Generate Design"):
     if user_prompt:
         st.write("🎨 Generating design... Please wait.")
-        image_paths = [image_path]
-        captions = ["Generated Design"] 
-        st.image(image_paths, caption=captions, use_container_width=True)
-        # Download button
-        with open(image_path, "rb") as file:
-            st.download_button(
-                label="⬇️ Download Design",
-                data=file,
-                file_name="interior_design.png",
-                mime="image/png"
-            )
+        
+        # Call the image generator to create the image
+        image_paths = generate_image(user_prompt)  # Assuming this function returns a list of image paths
+        
+        # Display all generated images
+        for image_path in image_paths:
+            st.image(image_path, caption="Generated Design", use_container_width=True)
+            
+            # Provide a download button for each image
+            with open(image_path, "rb") as file:
+                st.download_button(
+                    label="⬇️ Download Design",
+                    data=file,
+                    file_name=os.path.basename(image_path),
+                    mime="image/png"
+                )
     else:
         st.warning("⚠️ Please enter a description first.")
