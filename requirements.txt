@@ -4,3 +4,4 @@ torchvision
 diffusers
 transformers
 pillow
+accelerate
