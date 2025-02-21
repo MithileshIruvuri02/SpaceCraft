@@ -22,9 +22,9 @@ user_prompt = st.text_area("Describe your room:", selected_theme if selected_the
 if st.button("Generate Design"):
     if user_prompt:
         st.write("🎨 Generating design... Please wait.")
-        image_path = generate_image(user_prompt)
-        st.image(image_path, caption="Generated Design", use_column_width=True)
-
+        image_paths = [image_path]
+        captions = ["Generated Design"] 
+        st.image(image_paths, caption=captions, use_container_width=True)
         # Download button
         with open(image_path, "rb") as file:
             st.download_button(
